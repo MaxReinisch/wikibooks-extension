@@ -1,0 +1,38 @@
+{
+    "name": "Wikipedia ISBN Book Finder",
+    "version": "1.01",
+    "description": "Finds books from Wikipedia ISBNs",
+    "permissions": [
+      "tabs",
+      "activeTab",
+      "declarativeContent",
+      "storage",
+      "http://*/*",
+      "https://*/*",
+      "*://*/*",
+      "<all_urls>"
+    ],
+    "background": {
+      "scripts": ["scripts/background.js"],
+      "persistent": false
+    },
+    "content_scripts": [
+      {
+        "matches": [
+          "http://en.wikipedia.org/wiki/*", "https://en.wikipedia.org/wiki/*"
+        ],
+        "js": ["scripts/content.js"]
+      }
+    ],
+    "options_page": "options.html",
+    "page_action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "32": "images/icon.png"
+      }
+    },
+    "icons": {
+      "32": "images/icon.png"
+    },
+    "manifest_version": 2
+  }
