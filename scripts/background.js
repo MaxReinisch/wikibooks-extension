@@ -78,22 +78,33 @@ function getIDsFromResponse(data){
       ids.push(id);
     }
   }else{
-    console.log(data.message);
+    // console.log(data.message);
   }
   return ids;
 }
 
 // requests "/context/books/" endpoint
-function getIDs(url){
+function getBooked(url){
   var xhr=new XMLHttpRequest();
   var new_url="https://archive.org/services/context/books?url=" + url;
   xhr.open("GET",new_url,true);
   xhr.onload=function(){
     let data=JSON.parse(xhr.response);
     ids = getIDsFromResponse(data);
+
+    let windowOptions = {
+      "url": "booklist.html",
+      "left":100,
+      "top": 100,
+      "width": 300,
+      "height":1000
+    }
+    chrome.windows.create(windowOptions);
+
   }
   xhr.send();
 }
+
 
 let ids = []
 chrome.runtime.onMessage.addListener(
@@ -101,22 +112,15 @@ chrome.runtime.onMessage.addListener(
 
     // sent from popup requesting that background.js get
     // book identifiers (IDs), and open booklist.html window
-    if(request.action === "getIDs"){
-      getIDs(request.url);
-      let windowOptions = {
-        "url": "booklist.html",
-        "left":100,
-        "top": 100,
-        "width": 200,
-        "height":800
-      }
-      chrome.windows.create(windowOptions);
+    if(request.action === "getBooked"){
+      getBooked(request.url);
+
     }
     // sent from booklist.js requesting that backgrond.js get
-    // book metadata and send it back as a response
+    // send book identifiers
     if(request.action === "populateBooklist"){
-      // TODO: request archive.org/metadata here
-      sendResponse({'IDs': ids})
+      sendResponse({"IDs": ids})
+      ids = [];
     }
   }
 );
