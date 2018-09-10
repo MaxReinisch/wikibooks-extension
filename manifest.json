@@ -1,6 +1,6 @@
 {
     "name": "Wikipedia ISBN Book Finder",
-    "version": "1.01",
+    "version": "1.02",
     "description": "Finds books from Wikipedia ISBNs",
     "permissions": [
       "tabs",
