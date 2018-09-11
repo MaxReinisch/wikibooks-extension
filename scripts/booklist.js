@@ -98,7 +98,7 @@ function addBookFromArchive(metadata){
   let button = document.createElement("a");
 
   button.setAttribute("class", "btn btn-success resize_fit_center");
-  button.setAttribute("href", "https://archive.org/stream/" + metadata.identifier);
+  button.setAttribute("href", "https://archive.org/details/" + metadata.identifier);
   details.setAttribute("href", "https://archive.org/details/" + metadata.identifier);
   img.setAttribute("src", "https://archive.org/services/img/" + metadata.identifier);
   // book.setAttribute("class", "book_container");
@@ -120,7 +120,7 @@ function addBookFromOpenLibrary(metadata){
   let div = document.createElement('div');
   let book = document.createElement('p');
   let strong = document.createElement('strong');
-  // let author = document.createElement('p');
+  let author = document.createElement('p');
   let details = document.createElement('a');
   let img = document.createElement("img");
   let button = document.createElement("a");
@@ -139,13 +139,20 @@ function addBookFromOpenLibrary(metadata){
 
   details.appendChild(img);
   strong.appendChild(document.createTextNode(metadata.title));
-  // author.appendChild(document.createTextNode(metadata.creator));
+  // author.appendChild(document.createTextNode(getAuthorFromOpenLibrary(metadata.authors)));
   button.appendChild(document.createTextNode("Donate"));
   book.appendChild(strong);
-  // book.appendChild(author)
+  // book.appendChild(author);
   book.appendChild(details);
   book.appendChild(button);
   div.appendChild(book);
 
   resultsTray.appendChild(div);
 }
+
+// function getAuthorFromOpenLibrary(authors){
+//   ret = ""
+//   for(let i = 0; i < Math.min(2, len(authors)); i++){
+//
+//   }
+// }
