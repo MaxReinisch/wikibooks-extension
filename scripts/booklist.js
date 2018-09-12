@@ -19,12 +19,16 @@ function getBooked(url){
     let data=JSON.parse(xhr.response);
     if(data instanceof Array){ //checks if any ISBNs found
       for(let book of data){  // Iterate over each book to get data
-        let OLID = Object.keys(book.responses)[0];
-        let archiveIdentifier = book.responses[OLID]['identifier'];
-        if(archiveIdentifier){
-          getMetadataFromArchive(archiveIdentifier);
-        }else{
-          getMetadataFromOpenLibrary(OLID);
+        let isbn = Object.keys(book)[0];
+        // console.log(isbn);
+        if(book[isbn]){
+          let OLID = Object.keys(book[isbn].responses)[0];
+          let archiveIdentifier = book[isbn].responses[OLID]['identifier'];
+          if(archiveIdentifier){
+            getMetadataFromArchive(archiveIdentifier);
+          }else{
+            getMetadataFromOpenLibrary(OLID);
+          }
         }
       }
     }else{
@@ -33,23 +37,6 @@ function getBooked(url){
   }
   xhr.send();
 }
-
-// // parse JSON response for IDs
-// function getIDsFromResponse(data){
-//   let OLIDs = [];
-//   if(data instanceof Array){
-//     for(let book of data){
-//       let id = Object.keys(book.responses)[0];
-//       OLIDs.push(id);
-//     }
-//   }else{
-//     resultsTray.appendChild(document.createTextNode(data.message));
-//   }
-//   return OLIDs;
-// }
-//
-
-
 
 
 
@@ -79,7 +66,7 @@ function getMetadataFromOpenLibrary(olid){
   var xhr=new XMLHttpRequest();
   xhr.responseType = "json";
   var qurl= "http://openlibrary.org/works/"+olid+".json";
-  console.log(qurl);
+  // console.log(qurl);
   xhr.open("GET",qurl,true);
   xhr.onload=function(){
     addBookFromOpenLibrary(xhr.response);
@@ -89,8 +76,8 @@ function getMetadataFromOpenLibrary(olid){
 }
 
 function addBookFromArchive(metadata){
-  let div = document.createElement('div');
-  let book = document.createElement('p');
+  let book = document.createElement('div');
+  let title = document.createElement('p');
   let strong = document.createElement('strong');
   let author = document.createElement('p');
   let details = document.createElement('a');
@@ -107,18 +94,19 @@ function addBookFromArchive(metadata){
   strong.appendChild(document.createTextNode(metadata.title));
   author.appendChild(document.createTextNode(metadata.creator));
   button.appendChild(document.createTextNode("Read Now"));
-  book.appendChild(strong);
+  title.appendChild(strong);
+  book.appendChild(title);
   book.appendChild(author)
   book.appendChild(details);
   book.appendChild(button);
-  div.appendChild(book);
 
-  resultsTray.appendChild(div);
+
+  resultsTray.appendChild(book);
 }
 
 function addBookFromOpenLibrary(metadata){
-  let div = document.createElement('div');
-  let book = document.createElement('p');
+  let book = document.createElement('div');
+  let title = document.createElement('p');
   let strong = document.createElement('strong');
   let author = document.createElement('p');
   let details = document.createElement('a');
@@ -141,13 +129,14 @@ function addBookFromOpenLibrary(metadata){
   strong.appendChild(document.createTextNode(metadata.title));
   // author.appendChild(document.createTextNode(getAuthorFromOpenLibrary(metadata.authors)));
   button.appendChild(document.createTextNode("Donate"));
-  book.appendChild(strong);
+  title.appendChild(strong);
+  book.appendChild(title);
   // book.appendChild(author);
   book.appendChild(details);
   book.appendChild(button);
-  div.appendChild(book);
 
-  resultsTray.appendChild(div);
+
+  resultsTray.appendChild(book);
 }
 
 // function getAuthorFromOpenLibrary(authors){

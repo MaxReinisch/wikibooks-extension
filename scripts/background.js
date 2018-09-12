@@ -39,6 +39,7 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
 // }
 
 
+
 let ids = []
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse){
@@ -50,7 +51,7 @@ chrome.runtime.onMessage.addListener(
         "url": chrome.runtime.getURL("booklist.html") + "?url="+request.url,
         "left":100,
         "top": 100,
-        "width": 500,
+        "width": 600,
         "height":1000
       }
       chrome.windows.create(windowOptions);
@@ -64,3 +65,16 @@ chrome.runtime.onMessage.addListener(
     // }
   }
 );
+
+
+
+//Testing for Mek
+//
+// function reqListener () {
+//   console.log(this.responseText);
+// }
+//
+// var oReq = new XMLHttpRequest();
+// oReq.addEventListener("load", reqListener);
+// oReq.open("GET", "https://archive.org/account/s3.php?output_json=true");
+// oReq.send();
